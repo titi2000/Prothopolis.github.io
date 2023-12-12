@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statut du serveur</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    #status-indicator {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bienvenue sur Prothopolis</h1>
+  <div id="status-indicator"></div>
+
+  <script>
+    // Fonction pour vérifier le statut du serveur
+    function checkServerStatus() {
+      fetch('https://minecraftpocket-servers.com/api/?object=servers&element=detail&key=HwzsXaPvWXxrZj9VRQOw3KpPYdyhcrCmR5')
+        .then(response => response.json())
+        .then(data => {
+          // Vérifier si "is_online" est égal à "1"
+          if (data.is_online === "1") {
+            showStatus('Le serveur est en ligne.');
+          } else {
+            showStatus('Le serveur est hors ligne.');
+          }
+        })
+        .catch(error => {
+          // En cas d'erreur, afficher un message d'erreur
+          showStatus('Une erreur s\'est produite lors de la vérification du statut du serveur.');
+        });
+    }
+
+    // Fonction pour afficher le statut
+    function showStatus(text) {
+      const statusIndicator = document.getElementById('status-indicator');
+      statusIndicator.innerText = text;
+    }
+
+    // Appeler la fonction au chargement de la page
+    window.onload = function () {
+      checkServerStatus();
+      document.querySelector('h1').insertAdjacentHTML('afterend', '<p id="subtitle">Statut du serveur :</p>');
+    };
+  </script>
+</body>
+</html>
